@@ -1,0 +1,6 @@
+title: Мастерская блюд
+author: Иванова Мария, Шинкевич Дарья, Быстрова Вероника
+description: Проект "Мастерская блюд"
+show_excerpts: true # set to false to remove excerpts on the homepage
+
+theme: jekyll-theme-cayman
