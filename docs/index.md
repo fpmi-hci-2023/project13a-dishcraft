@@ -4,7 +4,7 @@
 [Диаграмма файлов приложения](pages/files_diagram.md)  
 [Дополнительная спецификация](pages/additional_specification.md)   
 [Схема базы данных](pages/database_schema.md)  
-[API-проекта](pages/project_api.md)
+[API-проекта](pages/project_api.md)  
 [Презентация проекта](pages/project_presentation.md)  
 
 ## Мастерская блюд
