@@ -17,6 +17,8 @@
 # Отчёты по лабораторным работам
 1. [Лабораторная работа №1](https://sulfuric-rosehip-3c5.notion.site/1-033f6f3fe84e455e9b209efd61884812)
 2. [Лабораторная работа №2](https://docs.google.com/document/d/1QWBvowTlz-mBecVxtZ02RZ8njr4bLDnBrUBVEq2W9yo/edit?usp=drive_link)
+3. [Лабораторная работа №3](https://docs.google.com/document/d/11c4KlcwCSMM34E_57IovJqhBAhJd_KkZTZLe9dNpcRQ/edit?usp=sharing)
+6. [Лабораторная работа №6](https://docs.google.com/document/d/1mqX47KwLoske96zh73R63EgCPkDhRTTK_2rwpkcc_yw/edit?usp=sharing)
 
 # Contribution
 **Авторы проекта:** Быстрова Вероника, Иванова Мария, Шинкевич Дарья
