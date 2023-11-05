@@ -2,16 +2,22 @@ package com.dishcraft.controller;
 
 import com.dishcraft.model.Recipe;
 import com.dishcraft.model.User;
+import com.dishcraft.payload.request.FavouriteRequest;
+import com.dishcraft.payload.request.RecipeRequest;
 import com.dishcraft.services.RecipeService;
 import com.dishcraft.services.UserService;
+
+import jakarta.validation.Valid;
 
 import javax.sound.midi.VoiceStatus;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,14 +69,52 @@ public class UserController {
     	recipeService.deleteRecipe(recipeId);
     	return new ResponseEntity<>(HttpStatus.OK);
     }
-//    
-//    @GetMapping("/users/{id}/favourites")
-//    public ResponseEntity<?> getFavourites(Authentication authentication, @PathVariable("id") Long id) {    	
-//    	User user = userService.getUserByEmail(authentication.getName());
-//    	
-//    	if (user.getId() != id)
-//    		return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-//    	
-//    	
-//    }
+    
+    // TODO: TEST
+    @GetMapping("/users/{id}/favourites")
+    public ResponseEntity<?> getFavourites(Authentication authentication, @PathVariable("id") Long id) {    	
+    	User user = userService.getUserByEmail(authentication.getName());
+    	
+    	if (user.getId() != id)
+    		return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    	
+    	return new ResponseEntity<>(userService.getFavourites(user), HttpStatus.OK);
+    }
+    
+    @PostMapping("/users/{id}/favourites")
+    public ResponseEntity<?> addFavourite(
+    		Authentication authentication, 
+    		@PathVariable("id") Long id,
+    		@Valid @ModelAttribute FavouriteRequest favouriteRequest
+    		) {
+    	User user = userService.getUserByEmail(authentication.getName());
+    	
+    	if (user.getId() != id)
+    		return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    	
+    	Recipe recipe = recipeService.getRecipe(favouriteRequest.recipeId());
+    	if (recipe == null)
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	
+    	return new ResponseEntity<>(userService.addFavourite(user, recipe), HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/users/{id}/favourites/{recipe_id}")
+    public ResponseEntity<?> deleteFavourite(
+    		Authentication authentication, 
+    		@PathVariable("id") Long id,
+    		@PathVariable("recipe_id") Long recipeId
+    		) {
+    	User user = userService.getUserByEmail(authentication.getName());
+    	
+    	if (user.getId() != id)
+    		return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+    	
+    	Recipe recipe = recipeService.getRecipe(recipeId);
+    	if (recipe == null)
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	
+    	userService.deleteFavourite(user, recipe);
+    	return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

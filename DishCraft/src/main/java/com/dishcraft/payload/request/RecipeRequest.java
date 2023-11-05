@@ -1,5 +1,7 @@
 package com.dishcraft.payload.request;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.NotBlank;
@@ -26,6 +28,11 @@ public class RecipeRequest {
     
     @NotBlank
     private Integer defaultPortionsNumber;
+    
+    @NotBlank
+    private List<RecipeProductRequest> products;
+    
+    private List<StepRequest> steps;
     
     public String getRecipeName() {
 		return recipeName;
@@ -82,4 +89,22 @@ public class RecipeRequest {
 	public void setDefaultPortionsNumber(Integer defaultPortionsNumber) {
 		this.defaultPortionsNumber = defaultPortionsNumber;
 	}
+
+	public List<StepRequest> getSteps() {
+		return steps;
+	}
+
+	public void setSteps(List<StepRequest> steps) {
+		this.steps = steps;
+	}
+
+	public List<RecipeProductRequest> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<RecipeProductRequest> products) {
+		this.products = products;
+	}
+	
+	
 }

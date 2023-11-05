@@ -32,8 +32,8 @@ public class Recipe {
     @JoinColumn(name="author_user_id")
     private User user;
     
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Step> steps = new ArrayList<>();
+//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Step> steps = new ArrayList<>();
 
     public Recipe(String recipeName, String description, Image image,
                   Integer cookingTimeMinutes, Integer readyTimeMinutes,
@@ -48,20 +48,20 @@ public class Recipe {
         this.user = user;
     }
 
-    private Recipe(String recipeName, String description, Image image, Integer cookingTimeMinutes,
-			Integer readyTimeMinutes, RecipeComplexity complexity, Integer defaultPortionsNumber, User user,
-			List<Step> steps) {
-		super();
-		this.recipeName = recipeName;
-		this.description = description;
-		this.image = image;
-		this.cookingTimeMinutes = cookingTimeMinutes;
-		this.readyTimeMinutes = readyTimeMinutes;
-		this.complexity = complexity;
-		this.defaultPortionsNumber = defaultPortionsNumber;
-		this.user = user;
-		this.steps = steps;
-	}
+//    private Recipe(String recipeName, String description, Image image, Integer cookingTimeMinutes,
+//			Integer readyTimeMinutes, RecipeComplexity complexity, Integer defaultPortionsNumber, User user
+//			/*, List<Step> steps*/) {
+//		super();
+//		this.recipeName = recipeName;
+//		this.description = description;
+//		this.image = image;
+//		this.cookingTimeMinutes = cookingTimeMinutes;
+//		this.readyTimeMinutes = readyTimeMinutes;
+//		this.complexity = complexity;
+//		this.defaultPortionsNumber = defaultPortionsNumber;
+//		this.user = user;
+////		this.steps = steps;
+//	}
     
 	protected Recipe() {
 
@@ -139,13 +139,13 @@ public class Recipe {
         this.user = user;
     }
 
-	public List<Step> getSteps() {
-		return steps;
-	}
-
-	public void setSteps(List<Step> steps) {
-		this.steps = steps;
-	}
+//	public List<Step> getSteps() {
+//		return steps;
+//	}
+//
+//	public void setSteps(List<Step> steps) {
+//		this.steps = steps;
+//	}
 
 	public void setImage(Image image) {
 		this.image = image;

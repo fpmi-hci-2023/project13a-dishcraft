@@ -60,13 +60,15 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/auth/**").permitAll()
-                            .requestMatchers(antMatcher(HttpMethod.GET, "/recipes/**")).permitAll()
+                        	.requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/v2/api-docs/**", "/v3/**", "/swagger/**").permitAll()
+                        	.requestMatchers(antMatcher(HttpMethod.GET, "/recipes/**")).permitAll()
                             .requestMatchers(antMatcher(HttpMethod.GET, "/products/**")).permitAll()
+                            .requestMatchers("/utils/**").permitAll()
 //                            .requestMatchers(antMatcher(HttpMethod.POST, "/products")).hasRole("ADMIN")
 //                            .requestMatchers(antMatcher(HttpMethod.DELETE, "/products/**")).hasRole("ADMIN")
                             .anyRequest().authenticated()
                 );
-
+        
         http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 

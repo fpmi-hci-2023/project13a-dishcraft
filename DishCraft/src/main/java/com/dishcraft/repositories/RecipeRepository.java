@@ -5,9 +5,11 @@ import com.dishcraft.model.User;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.CrudRepository;
 
-public interface RecipeRepository extends CrudRepository<Recipe, Long> {
+public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	
 	List<Recipe> findByUser(User user);
 	

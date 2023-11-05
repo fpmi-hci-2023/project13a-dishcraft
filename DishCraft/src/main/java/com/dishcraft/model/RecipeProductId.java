@@ -17,7 +17,6 @@ public class RecipeProductId implements Serializable{
 	@ManyToOne()
 	@JoinColumn(name = "product_id")
 	private Product product;
-	
 
 	public Recipe getRecipe() {
 		return recipe;

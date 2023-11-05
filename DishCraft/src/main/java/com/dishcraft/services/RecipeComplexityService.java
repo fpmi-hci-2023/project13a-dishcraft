@@ -1,5 +1,7 @@
 package com.dishcraft.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.dishcraft.model.RecipeComplexity;
@@ -12,6 +14,10 @@ public class RecipeComplexityService {
 	
 	public RecipeComplexityService(RecipeComplexityRepository recipeComplexityRepository) {
 		this.recipeComplexityRepository = recipeComplexityRepository;
+	}
+	
+	public List<RecipeComplexity> getRecipeComplexities() {
+		return recipeComplexityRepository.findAll();
 	}
 	
 	public RecipeComplexity getComplexityById(Integer id) {

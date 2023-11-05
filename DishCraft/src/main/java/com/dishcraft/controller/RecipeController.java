@@ -3,11 +3,14 @@ package com.dishcraft.controller;
 import com.dishcraft.model.Comment;
 import com.dishcraft.model.Image;
 import com.dishcraft.model.Recipe;
+import com.dishcraft.model.SortRecipesEnum;
+import com.dishcraft.model.Step;
 import com.dishcraft.model.User;
 import com.dishcraft.model.Rating;
 import com.dishcraft.payload.request.CommentRequest;
 import com.dishcraft.payload.request.RatingRequest;
 import com.dishcraft.payload.request.RecipeRequest;
+import com.dishcraft.payload.request.StepRequest;
 import com.dishcraft.repositories.UserRepository;
 import com.dishcraft.services.CommentService;
 import com.dishcraft.services.ImageService;
@@ -19,6 +22,7 @@ import com.dishcraft.services.RecipeService;
 import jakarta.validation.Valid;
 
 import org.aspectj.weaver.patterns.VoidArrayFinder;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -54,7 +58,8 @@ public class RecipeController {
 
     // протестировать
     @PostMapping("/recipes")
-    public ResponseEntity<?> postRecipes(Authentication authentication, @Valid @ModelAttribute RecipeRequest recipe) {
+    public ResponseEntity<?> postRecipes(Authentication authentication, 
+    		@Valid @ModelAttribute RecipeRequest recipe) {
     	Image imageData = null;
     	
     	try {
@@ -75,14 +80,27 @@ public class RecipeController {
     										recipe.getDefaultPortionsNumber(),
     										user));
     	
+    	for (var item: recipe.getProducts()) {
+    		recipeService.addProduct(newRecipe, item);    	}
+    	
+    	for (var item: recipe.getSteps()) {
+    		recipeService.addStep(newRecipe, item);
+    	}
+    	
     	return newRecipe != null ? new ResponseEntity<>(newRecipe, HttpStatus.CREATED)
                 				: new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/recipes")
-    public List<Recipe> getRecipeList() {
+    public Page<Recipe> getRecipeList(
+    		@RequestParam(required = false) String cookingTime,
+    		@RequestParam(required = false) String calories,
+    		@RequestParam(required = false) List<Long> productIds,
+    		@RequestParam(defaultValue = "0") int page,
+    		@RequestParam(defaultValue = "10") int size,
+    		@RequestParam(required = false, defaultValue = "new") String sortBy) {
     	
-        return recipeService.getRecipeList();
+        return recipeService.getRecipeList(cookingTime, calories, productIds, page, size, sortBy);
     }
 
     @GetMapping("/recipes/{id}")
@@ -109,6 +127,70 @@ public class RecipeController {
 //        return imageService.downloadImage(recipe.getImage());
     }
     
+    @PostMapping("/recipes/{id}/steps")
+    public ResponseEntity<?> addStep(Authentication authentication, 
+    		@PathVariable Long id, 
+    		@Valid @ModelAttribute StepRequest stepRequest) {
+    	
+    	Recipe recipe = recipeService.getRecipe(id);
+    	
+    	if (recipe == null) 
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	
+    	return new ResponseEntity<>(recipeService.addStep(recipe, stepRequest), HttpStatus.OK);
+    }
+    
+    @GetMapping("/recipes/{id}/steps")
+    public ResponseEntity<?> getSteps(@PathVariable Long id) {
+    	Recipe recipe = recipeService.getRecipe(id);
+    	
+    	if (recipe == null) 
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	
+    	return new ResponseEntity<>(recipeService.getSteps(recipe), HttpStatus.OK);
+    }
+    
+    @GetMapping("/recipes/{id}/steps/{step_id}")
+    public ResponseEntity<?> getStepById(@PathVariable("id") Long id, @PathVariable("step_id") Long stepId) {
+    	Recipe recipe = recipeService.getRecipe(id);
+    	
+    	if (recipe == null) 
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+   
+    	Step step = recipeService.getStep(stepId);
+    	
+    	return (step != null && step.getRecipe().getRecipeId() == id) 
+    			? new ResponseEntity<>(step, HttpStatus.OK)
+    			: new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    
+    @GetMapping("/recipes/{id}/steps/{step_id}/image")
+    public ResponseEntity<?> getStepImageById(@PathVariable("id") Long id, @PathVariable("step_id") Long stepId) {
+    	Recipe recipe = recipeService.getRecipe(id);
+    	
+    	if (recipe == null) 
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+   
+    	Step step = recipeService.getStep(stepId);
+    	
+    	if (step == null || step.getRecipe().getRecipeId() != id) 
+    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    	
+    	HttpHeaders headers = new HttpHeaders();
+    	headers.setContentType(MediaType.IMAGE_JPEG);
+    	return new ResponseEntity<>(imageService.downloadImage(step.getImage()), headers, HttpStatus.OK);
+//        return imageService.downloadImage(recipe.getImage());
+    }
+    
+    // TODO: TEST
+    @GetMapping("/recipes/{id}/nutritional_value")
+    public ResponseEntity<?> getNutritionalValue(@PathVariable Long id) {
+    	Recipe recipe = recipeService.getRecipe(id);
+    	
+    	return recipe != null ? new ResponseEntity<>(
+    			recipeService.calculateNutritional(recipe), HttpStatus.OK)
+    			: new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     
     @PostMapping("/recipes/{id}/comments")
     public ResponseEntity<?> createComment(Authentication authentication, 

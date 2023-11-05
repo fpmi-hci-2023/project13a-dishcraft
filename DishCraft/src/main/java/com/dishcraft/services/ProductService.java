@@ -40,13 +40,17 @@ public class ProductService {
 	}
 	
 	public List<Product> getProductsByRecipe(Recipe recipe) {
-		List<RecipeProduct> list =  recipeProductRepository.findByRecipeProductIdRecipe(recipe);
-		List<Product> products = new ArrayList();
+		List<RecipeProduct> list =  getRecipeProductsByRecipe(recipe);
+		List<Product> products = new ArrayList<>();
 		
 		for (var item: list) {
 			products.add(item.getRecipeProductId().getProduct());
 		}
 		
 		return products;
+	}
+	
+	public List<RecipeProduct> getRecipeProductsByRecipe(Recipe recipe) {
+		return recipeProductRepository.findByRecipeProductIdRecipe(recipe);
 	}
 }

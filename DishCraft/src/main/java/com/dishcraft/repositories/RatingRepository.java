@@ -13,6 +13,6 @@ public interface RatingRepository extends CrudRepository<Rating, Long> {
 
 	List<Rating> findByRecipe(Recipe recipe);
 	
-	@Query("SELECT AVG(r.ratingValue) FROM Rating r WHERE r.recipe.recipeId =: id")
-	Double avgByRecipe(@Param("id") Long id);
+	@Query("SELECT AVG(r.ratingValue) FROM Rating r WHERE r.recipe.recipeId = :v")
+	Double avgByRecipe(@Param("v") Long id);
 }

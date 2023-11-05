@@ -17,14 +17,6 @@ public class FavouriteRecipeId implements Serializable{
 	@ManyToOne()
 	@JoinColumn(name = "user_id")
 	private User user;
-	
-	private FavouriteRecipeId() {}
-
-	public FavouriteRecipeId(Recipe recipe, User user) {
-		super();
-		this.recipe = recipe;
-		this.user = user;
-	}
 
 	public Recipe getRecipe() {
 		return recipe;
