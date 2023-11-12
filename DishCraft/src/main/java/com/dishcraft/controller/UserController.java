@@ -1,5 +1,6 @@
 package com.dishcraft.controller;
 
+import com.dishcraft.model.FavouriteRecipe;
 import com.dishcraft.model.Recipe;
 import com.dishcraft.model.User;
 import com.dishcraft.payload.request.FavouriteRequest;
@@ -8,6 +9,8 @@ import com.dishcraft.services.RecipeService;
 import com.dishcraft.services.UserService;
 
 import jakarta.validation.Valid;
+
+import java.util.List;
 
 import javax.sound.midi.VoiceStatus;
 
@@ -48,7 +51,7 @@ public class UserController {
     
     // TODO: TEST
     @GetMapping("/users/{id}/recipes")
-    public ResponseEntity<?> getAllRecipesByUser(@PathVariable Long id) {
+    public ResponseEntity<List<Recipe>> getAllRecipesByUser(@PathVariable Long id) {
     	User user = userService.getUser(id);
     	
     	return user != null ? new ResponseEntity<>(userService.getAllRecipesByUser(user), HttpStatus.OK)
@@ -72,7 +75,7 @@ public class UserController {
     
     // TODO: TEST
     @GetMapping("/users/{id}/favourites")
-    public ResponseEntity<?> getFavourites(Authentication authentication, @PathVariable("id") Long id) {    	
+    public ResponseEntity<List<Recipe>> getFavourites(Authentication authentication, @PathVariable("id") Long id) {    	
     	User user = userService.getUserByEmail(authentication.getName());
     	
     	if (user.getId() != id)
@@ -82,7 +85,7 @@ public class UserController {
     }
     
     @PostMapping("/users/{id}/favourites")
-    public ResponseEntity<?> addFavourite(
+    public ResponseEntity<FavouriteRecipe> addFavourite(
     		Authentication authentication, 
     		@PathVariable("id") Long id,
     		@Valid @ModelAttribute FavouriteRequest favouriteRequest

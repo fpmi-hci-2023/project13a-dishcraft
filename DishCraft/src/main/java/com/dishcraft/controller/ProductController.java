@@ -42,7 +42,7 @@ public class ProductController {
 	}
 	
 	@PostMapping("/products")
-	public ResponseEntity<?> createProduct(@Valid @ModelAttribute ProductRequest productRequest) {
+	public ResponseEntity<Product> createProduct(@Valid @ModelAttribute ProductRequest productRequest) {
 		Image imageData = null;
     	
     	try {
@@ -65,7 +65,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/products/{id}")
-	public ResponseEntity<?> getProductById(@PathVariable Long id) {
+	public ResponseEntity<Product> getProductById(@PathVariable Long id) {
 		Product product = productService.getProductById(id);
 		
 		return product != null ? new ResponseEntity<>(product, HttpStatus.OK)

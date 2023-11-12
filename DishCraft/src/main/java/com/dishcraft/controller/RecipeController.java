@@ -2,6 +2,7 @@ package com.dishcraft.controller;
 
 import com.dishcraft.model.Comment;
 import com.dishcraft.model.Image;
+import com.dishcraft.model.Product;
 import com.dishcraft.model.Recipe;
 import com.dishcraft.model.SortRecipesEnum;
 import com.dishcraft.model.Step;
@@ -11,6 +12,7 @@ import com.dishcraft.payload.request.CommentRequest;
 import com.dishcraft.payload.request.RatingRequest;
 import com.dishcraft.payload.request.RecipeRequest;
 import com.dishcraft.payload.request.StepRequest;
+import com.dishcraft.payload.response.NutritionalResponse;
 import com.dishcraft.repositories.UserRepository;
 import com.dishcraft.services.CommentService;
 import com.dishcraft.services.ImageService;
@@ -56,9 +58,8 @@ public class RecipeController {
 		this.productService = productService;
     }
 
-    // протестировать
     @PostMapping("/recipes")
-    public ResponseEntity<?> postRecipes(Authentication authentication, 
+    public ResponseEntity<Recipe> postRecipes(Authentication authentication, 
     		@Valid @ModelAttribute RecipeRequest recipe) {
     	Image imageData = null;
     	
@@ -128,12 +129,12 @@ public class RecipeController {
     }
     
     @PostMapping("/recipes/{id}/steps")
-    public ResponseEntity<?> addStep(Authentication authentication, 
+    public ResponseEntity<Step> addStep(Authentication authentication, 
     		@PathVariable Long id, 
     		@Valid @ModelAttribute StepRequest stepRequest) {
     	
     	Recipe recipe = recipeService.getRecipe(id);
-    	
+    
     	if (recipe == null) 
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     	
@@ -141,7 +142,7 @@ public class RecipeController {
     }
     
     @GetMapping("/recipes/{id}/steps")
-    public ResponseEntity<?> getSteps(@PathVariable Long id) {
+    public ResponseEntity<List<Step>> getSteps(@PathVariable Long id) {
     	Recipe recipe = recipeService.getRecipe(id);
     	
     	if (recipe == null) 
@@ -151,7 +152,7 @@ public class RecipeController {
     }
     
     @GetMapping("/recipes/{id}/steps/{step_id}")
-    public ResponseEntity<?> getStepById(@PathVariable("id") Long id, @PathVariable("step_id") Long stepId) {
+    public ResponseEntity<Step> getStepById(@PathVariable("id") Long id, @PathVariable("step_id") Long stepId) {
     	Recipe recipe = recipeService.getRecipe(id);
     	
     	if (recipe == null) 
@@ -165,7 +166,7 @@ public class RecipeController {
     }
     
     @GetMapping("/recipes/{id}/steps/{step_id}/image")
-    public ResponseEntity<?> getStepImageById(@PathVariable("id") Long id, @PathVariable("step_id") Long stepId) {
+    public ResponseEntity<byte[]> getStepImageById(@PathVariable("id") Long id, @PathVariable("step_id") Long stepId) {
     	Recipe recipe = recipeService.getRecipe(id);
     	
     	if (recipe == null) 
@@ -184,7 +185,7 @@ public class RecipeController {
     
     // TODO: TEST
     @GetMapping("/recipes/{id}/nutritional_value")
-    public ResponseEntity<?> getNutritionalValue(@PathVariable Long id) {
+    public ResponseEntity<NutritionalResponse> getNutritionalValue(@PathVariable Long id) {
     	Recipe recipe = recipeService.getRecipe(id);
     	
     	return recipe != null ? new ResponseEntity<>(
@@ -193,7 +194,7 @@ public class RecipeController {
     }
     
     @PostMapping("/recipes/{id}/comments")
-    public ResponseEntity<?> createComment(Authentication authentication, 
+    public ResponseEntity<Comment> createComment(Authentication authentication, 
     		@PathVariable Long id, @Valid @RequestBody CommentRequest commentRequest) {
     	
     	User user = userRepository.findByEmail(authentication.getName());
@@ -206,7 +207,7 @@ public class RecipeController {
     }
     
     @GetMapping("/recipes/{id}/comments")
-    public ResponseEntity<?> getComments(@PathVariable Long id) {
+    public ResponseEntity<List<Comment>> getComments(@PathVariable Long id) {
     	Recipe recipe = recipeService.getRecipe(id);
     	
     	return recipe != null ? new ResponseEntity<>(
@@ -215,7 +216,7 @@ public class RecipeController {
     }
     
     @GetMapping("/recipes/{id}/comments/{comment_id}")
-    public ResponseEntity<?> getCommentByRecipe(@PathVariable(name = "id") Long recipeId, 
+    public ResponseEntity<Comment> getCommentByRecipe(@PathVariable(name = "id") Long recipeId, 
     		@PathVariable(name = "comment_id") Long commentId) {
     	Recipe recipe = recipeService.getRecipe(recipeId);
     	if (recipe == null)
@@ -228,7 +229,7 @@ public class RecipeController {
     }
     
     @PatchMapping("/recipes/{id}/comments/{comment_id}")
-    public ResponseEntity<?> changeComment(Authentication authentication, @PathVariable(name = "id") Long recipeId, 
+    public ResponseEntity<Comment> changeComment(Authentication authentication, @PathVariable(name = "id") Long recipeId, 
     		@PathVariable(name = "comment_id") Long commentId, @Valid @RequestBody CommentRequest commentRequest) {
     	
     	Recipe recipe = recipeService.getRecipe(recipeId);
@@ -258,7 +259,7 @@ public class RecipeController {
     }
     
     @PostMapping("/recipes/{id}/ratings")
-    public ResponseEntity<?> addRating(Authentication authentication, @PathVariable(name = "id") Long recipeId
+    public ResponseEntity<Rating> addRating(Authentication authentication, @PathVariable(name = "id") Long recipeId
     		, @Valid @RequestBody RatingRequest ratingRequest) {
     	Recipe recipe = recipeService.getRecipe(recipeId);
     	if (recipe == null)
@@ -274,7 +275,7 @@ public class RecipeController {
     
     // TODO: TEST
     @GetMapping("/recipes/{id}/ratings")
-    public ResponseEntity<?> getRatings(@PathVariable(name = "id") Long recipeId) {
+    public ResponseEntity<List<Rating>> getRatings(@PathVariable(name = "id") Long recipeId) {
     	Recipe recipe = recipeService.getRecipe(recipeId);
     	if (recipe == null)
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -284,7 +285,7 @@ public class RecipeController {
     
     // TODO: TEST
     @GetMapping("/recipes/{id}/ratings/total")
-    public ResponseEntity<?> getTotalRating(@PathVariable(name = "id") Long recipeId) {
+    public ResponseEntity<Double> getTotalRating(@PathVariable(name = "id") Long recipeId) {
     	Recipe recipe = recipeService.getRecipe(recipeId);
     	if (recipe == null)
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -293,7 +294,7 @@ public class RecipeController {
     }
     
     @GetMapping("/recipes/{id}/ratings/{rating_id}")
-    public ResponseEntity<?> getTotalRating(@PathVariable(name = "id") Long recipeId, 
+    public ResponseEntity<Rating> getTotalRating(@PathVariable(name = "id") Long recipeId, 
     		@PathVariable(name = "rating_id") Long ratingId) {
     	
     	Rating rating = ratingService.getRating(ratingId);
@@ -304,7 +305,7 @@ public class RecipeController {
     
     // TODO: TEST
     @PatchMapping("/recipes/{id}/ratings/{rating_id}")
-    public ResponseEntity<?> changeRating(Authentication authentication, @PathVariable(name = "id") Long recipeId, 
+    public ResponseEntity<Rating> changeRating(Authentication authentication, @PathVariable(name = "id") Long recipeId, 
     		@PathVariable(name = "rating_id") Long ratingId, @Valid @RequestBody RatingRequest ratingRequest) {
     	
     	Recipe recipe = recipeService.getRecipe(recipeId);
@@ -335,7 +336,7 @@ public class RecipeController {
     
     
     @GetMapping("/recipes/{id}/products")
-    public ResponseEntity<?> getRecipeProducts(@PathVariable(name = "id") Long recipeId) {
+    public ResponseEntity<List<Product>> getRecipeProducts(@PathVariable(name = "id") Long recipeId) {
     	Recipe recipe = recipeService.getRecipe(recipeId);
     	if (recipe == null)
     		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
