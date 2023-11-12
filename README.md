@@ -12,6 +12,9 @@
 * Веб-приложение: [https://github.com/fpmi-hci-2023/project13a-web-dishcraft](https://github.com/fpmi-hci-2023/project13a-web-dishcraft)
 * Мобильное приложение: [https://github.com/fpmi-hci-2023/project13a-mobile-dishcraft](https://github.com/fpmi-hci-2023/project13a-mobile-dishcraft)
 
+### API Documentation
+* Swagger: [https://dish-craft.onrender.com/swagger-ui/index.html](https://dish-craft.onrender.com/swagger-ui/index.html)
+
 # Usage
 
 # Отчёты по лабораторным работам
