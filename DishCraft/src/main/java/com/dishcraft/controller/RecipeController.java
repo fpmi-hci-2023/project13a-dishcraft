@@ -21,6 +21,7 @@ import com.dishcraft.services.RatingService;
 import com.dishcraft.services.RecipeComplexityService;
 import com.dishcraft.services.RecipeService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 import org.aspectj.weaver.patterns.VoidArrayFinder;
@@ -59,6 +60,7 @@ public class RecipeController {
     }
 
     @PostMapping("/recipes")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Recipe> postRecipes(Authentication authentication, 
     		@Valid @ModelAttribute RecipeRequest recipe) {
     	Image imageData = null;
@@ -129,6 +131,7 @@ public class RecipeController {
     }
     
     @PostMapping("/recipes/{id}/steps")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Step> addStep(Authentication authentication, 
     		@PathVariable Long id, 
     		@Valid @ModelAttribute StepRequest stepRequest) {
@@ -194,6 +197,7 @@ public class RecipeController {
     }
     
     @PostMapping("/recipes/{id}/comments")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Comment> createComment(Authentication authentication, 
     		@PathVariable Long id, @Valid @RequestBody CommentRequest commentRequest) {
     	
@@ -229,6 +233,7 @@ public class RecipeController {
     }
     
     @PatchMapping("/recipes/{id}/comments/{comment_id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Comment> changeComment(Authentication authentication, @PathVariable(name = "id") Long recipeId, 
     		@PathVariable(name = "comment_id") Long commentId, @Valid @RequestBody CommentRequest commentRequest) {
     	
@@ -259,6 +264,7 @@ public class RecipeController {
     }
     
     @PostMapping("/recipes/{id}/ratings")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Rating> addRating(Authentication authentication, @PathVariable(name = "id") Long recipeId
     		, @Valid @RequestBody RatingRequest ratingRequest) {
     	Recipe recipe = recipeService.getRecipe(recipeId);

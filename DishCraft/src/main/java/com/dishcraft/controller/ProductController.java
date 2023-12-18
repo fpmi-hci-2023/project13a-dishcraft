@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dishcraft.services.ImageService;
 import com.dishcraft.services.ProductService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 import com.dishcraft.model.Image;
@@ -42,7 +44,8 @@ public class ProductController {
 	}
 	
 	@PostMapping("/products")
-	public ResponseEntity<Product> createProduct(@Valid @ModelAttribute ProductRequest productRequest) {
+	@SecurityRequirement(name = "Bearer Authentication")
+	public ResponseEntity<Product> createProduct(Authentication auth, @Valid @ModelAttribute ProductRequest productRequest) {
 		Image imageData = null;
     	
     	try {
@@ -73,7 +76,8 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/products/{id}")
-	public void deleteProduct(@PathVariable Long id) {
+	@SecurityRequirement(name = "Bearer Authentication")
+	public void deleteProduct(Authentication authentication, @PathVariable Long id) {
 		productService.deleteProductById(id);
 	}
 	

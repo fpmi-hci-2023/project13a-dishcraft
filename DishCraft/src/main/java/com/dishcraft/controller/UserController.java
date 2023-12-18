@@ -8,6 +8,7 @@ import com.dishcraft.payload.request.RecipeRequest;
 import com.dishcraft.services.RecipeService;
 import com.dishcraft.services.UserService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -45,7 +46,8 @@ public class UserController {
 
     //TODO: TEST
     @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    @SecurityRequirement(name = "Bearer Authentication")
+    public void deleteUser(Authentication authentication, @PathVariable Long id) {
     	userService.deleteUserById(id);
     }
     
@@ -60,6 +62,7 @@ public class UserController {
     
     // TODO: TEST
     @DeleteMapping("/users/{id}/recipes/{recipe_id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<?> deleteUserRecipe(Authentication authentication, @PathVariable("id") Long id, @PathVariable("recipe_id") Long recipeId) {
     	
     	User user = userService.getUserByEmail(authentication.getName());
@@ -75,6 +78,7 @@ public class UserController {
     
     // TODO: TEST
     @GetMapping("/users/{id}/favourites")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<List<Recipe>> getFavourites(Authentication authentication, @PathVariable("id") Long id) {    	
     	User user = userService.getUserByEmail(authentication.getName());
     	
@@ -85,6 +89,7 @@ public class UserController {
     }
     
     @PostMapping("/users/{id}/favourites")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<FavouriteRecipe> addFavourite(
     		Authentication authentication, 
     		@PathVariable("id") Long id,
@@ -103,6 +108,7 @@ public class UserController {
     }
     
     @DeleteMapping("/users/{id}/favourites/{recipe_id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<?> deleteFavourite(
     		Authentication authentication, 
     		@PathVariable("id") Long id,

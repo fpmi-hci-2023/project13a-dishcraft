@@ -74,11 +74,6 @@ public class AuthController {
         }
     }
 
-    @RequestMapping(value = "/sign",method = RequestMethod.GET)
-    public String sign() {
-        return "hello";
-    }
-
     @RequestMapping(value = "/signup",method = RequestMethod.POST)
     public ResponseEntity<?> registerUser(@RequestBody SignupRequest signUpRequest) {
         try {
