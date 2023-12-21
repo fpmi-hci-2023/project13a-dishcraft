@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,6 +27,7 @@ import com.dishcraft.model.Image;
 import com.dishcraft.model.Product;
 import com.dishcraft.payload.request.ProductRequest;
 
+@CrossOrigin
 @RestController
 public class ProductController {
 	

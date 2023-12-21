@@ -2,6 +2,7 @@ package com.dishcraft.controller;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +13,7 @@ import com.dishcraft.model.RecipeComplexity;
 import com.dishcraft.services.RecipeComplexityService;
 import com.dishcraft.services.UnitsServer;
 
+@CrossOrigin
 @RestController
 public class UtilController {
 	

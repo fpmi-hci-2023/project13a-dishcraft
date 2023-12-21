@@ -25,6 +25,7 @@ import com.dishcraft.security.JwtUtils;
 import java.util.HashSet;
 import java.util.Set;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
