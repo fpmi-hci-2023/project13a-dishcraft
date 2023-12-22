@@ -17,14 +17,20 @@ public class ProductService {
 
 	private final ProductRepository productRepository;
 	private final RecipeProductRepository recipeProductRepository;
+	private final ImageService imageService;
 	
-	public ProductService(ProductRepository productRepository, RecipeProductRepository recipeProductRepository) {
+	public ProductService(ProductRepository productRepository, RecipeProductRepository recipeProductRepository, ImageService imageService) {
 		this.productRepository = productRepository;
 		this.recipeProductRepository = recipeProductRepository;
+		this.imageService = imageService;
 	}
 	
 	public Product getProductById(Long id) {
-		return productRepository.findById(id).orElseGet(null);
+		var product = productRepository.findById(id).orElseGet(null);
+		if (product != null) {
+    		product.getImage().setData(imageService.downloadImage(product.getImage()));
+		}
+		return product;
 	}
 	
 	public void deleteProductById(Long id) {
@@ -32,7 +38,11 @@ public class ProductService {
 	}
 	
 	public List<Product> getAllProducts() {
-		return (List<Product>)productRepository.findAll();
+		var products = (List<Product>)productRepository.findAll();
+    	for (var product: products) {
+    		product.getImage().setData(imageService.downloadImage(product.getImage()));
+    	}
+		return products;
 	}
 	
 	public Product saveProduct(Product product) {
@@ -46,6 +56,10 @@ public class ProductService {
 		for (var item: list) {
 			products.add(item.getRecipeProductId().getProduct());
 		}
+		
+		for (var product: products) {
+    		product.getImage().setData(imageService.downloadImage(product.getImage()));
+    	}
 		
 		return products;
 	}

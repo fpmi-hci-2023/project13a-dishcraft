@@ -199,10 +199,18 @@ public class RecipeService {
     }
     
     public List<Step> getSteps(Recipe recipe) {
-    	return stepRepository.findByRecipe(recipe);
+    	var steps = (List<Step>)stepRepository.findByRecipe(recipe);
+    	for (var step: steps) {
+//    		System.out.println(imageService.downloadImage(recipe.getImage()));
+    		step.getImage().setData(imageService.downloadImage(step.getImage()));
+//    		System.out.println(product.getImage().getData());
+    	}
+		return steps;
     }
     
     public Step getStep (Long id) {
-    	return stepRepository.findById(id).orElse(null);
+    	var step = stepRepository.findById(id).orElse(null);
+    	step.getImage().setData(imageService.downloadImage(step.getImage()));
+    	return step;
     }
 }
