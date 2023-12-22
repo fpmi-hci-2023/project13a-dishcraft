@@ -144,7 +144,9 @@ public class RecipeService {
     }
 
     public Recipe getRecipe(Long id) {
-        return recipeRepository.findById(id).orElse(null);
+    	var recipe = recipeRepository.findById(id).orElse(null);
+    	recipe.getImage().setData(imageService.downloadImage(recipe.getImage()));
+        return recipe;
     }
     
     public void deleteRecipe(Long id) {
