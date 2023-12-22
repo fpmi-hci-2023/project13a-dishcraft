@@ -61,7 +61,7 @@ public class RecipeService {
 
     public Page<Recipe> getRecipeList(
     		String cookingTime, String calories,List<Long> productIds, 
-    		int page, int size, String sortBy
+    		int page, int size, String sortBy, String search
     		) {
     	
     	List<Recipe> recipes = (List<Recipe>) recipeRepository.findAll();
@@ -108,7 +108,7 @@ public class RecipeService {
     	}
     	
 //    	System.out.println("Before new");
-    	if (sortBy.equals("new")) {
+    	if (sortBy.equals("new") && recipes != null && recipes.size() > 0) {
     		System.out.println("In new");
     		recipes.sort(Comparator.comparing(Recipe::getRecipeId).reversed());
     	} else if (sortBy.equals("popular")) {
@@ -121,6 +121,12 @@ public class RecipeService {
 		    					t2 == null ? 0 : t2);
     				})
     			.reversed());
+    	}
+    	
+    	if (search != null) {
+    		recipes = recipes.stream()
+    				.filter(x -> x.getRecipeName().toLowerCase()
+    						.contains(search.toLowerCase())).toList();
     	}
     	
     	for (var recipe: recipes) {

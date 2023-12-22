@@ -102,9 +102,10 @@ public class RecipeController {
     		@RequestParam(required = false) List<Long> productIds,
     		@RequestParam(defaultValue = "0") int page,
     		@RequestParam(defaultValue = "10") int size,
-    		@RequestParam(required = false, defaultValue = "new") String sortBy) {
+    		@RequestParam(required = false, defaultValue = "new") String sortBy,
+    		@RequestParam(required = false) String search) {
     	
-        return recipeService.getRecipeList(cookingTime, calories, productIds, page, size, sortBy);
+        return recipeService.getRecipeList(cookingTime, calories, productIds, page, size, sortBy, search);
     }
 
     @GetMapping("/recipes/{id}")
