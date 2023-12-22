@@ -128,7 +128,7 @@ public class RecipeController {
     	
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.IMAGE_JPEG);
-    	return new ResponseEntity<>(imageService.downloadImage(recipe.getImage()), headers, HttpStatus.OK);
+    	return new ResponseEntity<>(recipe.getImage().getData(), headers, HttpStatus.OK);
 //        return imageService.downloadImage(recipe.getImage());
     }
     
@@ -184,7 +184,7 @@ public class RecipeController {
     	
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.IMAGE_JPEG);
-    	return new ResponseEntity<>(imageService.downloadImage(step.getImage()), headers, HttpStatus.OK);
+    	return new ResponseEntity<>(step.getImage().getData(), headers, HttpStatus.OK);
 //        return imageService.downloadImage(recipe.getImage());
     }
     
