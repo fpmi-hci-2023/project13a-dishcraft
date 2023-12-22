@@ -32,6 +32,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -110,7 +111,7 @@ public class RecipeController {
 
     @GetMapping("/recipes/{id}")
     public ResponseEntity<Recipe> getRecipe(@PathVariable Long id) {
-        Recipe recipe = recipeService.getRecipe(id);
+        Recipe recipe = recipeService.getRecipeWithImage(id);
 
         return recipe != null ? new ResponseEntity<>(recipe, HttpStatus.OK)
                               : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -124,13 +125,33 @@ public class RecipeController {
     @GetMapping("/recipes/{id}/image")
 //    @ResponseBody
     public ResponseEntity<byte[]> getImage(@PathVariable Long id) {
-    	Recipe recipe = recipeService.getRecipe(id);
+    	Recipe recipe = recipeService.getRecipeWithImage(id);
     	
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.IMAGE_JPEG);
     	return new ResponseEntity<>(recipe.getImage().getData(), headers, HttpStatus.OK);
 //        return imageService.downloadImage(recipe.getImage());
     }
+    
+    @PatchMapping("/recipes/{id}/image")
+//  @ResponseBody
+  public ResponseEntity<?> changeImage(@PathVariable Long id, MultipartFile imageFile) {
+  	Recipe recipe = recipeService.getRecipe(id);
+  	Image imageData = null;
+	
+	try {
+		imageData = imageService.uploadImage(imageFile);
+	} catch (IOException e) {
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+	
+	recipe.setImage(imageData);
+	recipeService.saveRecipe(recipe);
+//  	HttpHeaders headers = new HttpHeaders();
+//  	headers.setContentType(MediaType.IMAGE_JPEG);
+  	return new ResponseEntity<>(recipe, HttpStatus.OK);
+//      return imageService.downloadImage(recipe.getImage());
+  }
     
     @PostMapping("/recipes/{id}/steps")
     @SecurityRequirement(name = "Bearer Authentication")

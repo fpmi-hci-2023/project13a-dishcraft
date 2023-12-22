@@ -143,10 +143,14 @@ public class RecipeService {
         return new PageImpl<>(recipes.subList(start, end), pageRequest, recipes.size());
     }
 
-    public Recipe getRecipe(Long id) {
+    public Recipe getRecipeWithImage(Long id) {
     	var recipe = recipeRepository.findById(id).orElse(null);
     	recipe.getImage().setData(imageService.downloadImage(recipe.getImage()));
         return recipe;
+    }
+    
+    public Recipe getRecipe(Long id) {
+        return recipeRepository.findById(id).orElse(null);
     }
     
     public void deleteRecipe(Long id) {

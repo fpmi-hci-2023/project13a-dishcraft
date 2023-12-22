@@ -26,6 +26,10 @@ public class ProductService {
 	}
 	
 	public Product getProductById(Long id) {
+		return productRepository.findById(id).orElseGet(null);
+	}
+	
+	public Product getProductWithImage(Long id) {
 		var product = productRepository.findById(id).orElseGet(null);
 		if (product != null) {
     		product.getImage().setData(imageService.downloadImage(product.getImage()));

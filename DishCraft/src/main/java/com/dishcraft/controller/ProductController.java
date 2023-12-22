@@ -71,7 +71,7 @@ public class ProductController {
 	
 	@GetMapping("/products/{id}")
 	public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-		Product product = productService.getProductById(id);
+		Product product = productService.getProductWithImage(id);
 		
 		return product != null ? new ResponseEntity<>(product, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -85,10 +85,10 @@ public class ProductController {
 	
 	@GetMapping("/products/{id}/image")
 	public ResponseEntity<byte[]> getProductImageById(@PathVariable Long id) {
-		Product product = productService.getProductById(id);
+		Product product = productService.getProductWithImage(id);
 		
 		HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.IMAGE_JPEG); // Установка типа содержимого для изображения
-    	return new ResponseEntity<>(imageService.downloadImage(product.getImage()), headers, HttpStatus.OK);
+    	return new ResponseEntity<>(product.getImage().getData(), headers, HttpStatus.OK);
 	}
 }
