@@ -7,6 +7,9 @@
 калории, время приготовления и другое. Каждый пользователь может создать свой рецепт или сохранить понравившийся у себя в избранных.
 
 # Installation
+* Веб-приложение: https://project13a-web-dishcraft.vercel.app/
+* Мобильное приложение:
+* API-документация: https://dish-craft.onrender.com/swagger-ui/index.html
 
 # Sub modules
 * Веб-приложение: [https://github.com/fpmi-hci-2023/project13a-web-dishcraft](https://github.com/fpmi-hci-2023/project13a-web-dishcraft)
@@ -16,6 +19,12 @@
 * Swagger: [https://dish-craft.onrender.com/swagger-ui/index.html](https://dish-craft.onrender.com/swagger-ui/index.html)
 
 # Usage
+После запуска приложения, пользователю рекомендуется зарегистрироваться в приложении, для более комфортной работы.
+
+На главной странице можно осуществить поиск рецептов с помощью поисковой панели и фильтров или выбрать из предложенных (по новизне и популярности)
+При выборе рецепта, пользователь попадет на страницу с подробным фоторецептом. Не стесняйтесь комментировать и сохранять рецепты в избранном.
+
+Если же пользователь готов поделиться со всеми своим рецептом, на навигационной панели пользователь может воспользоваться кнопкой "Создать рецепт"
 
 # Отчёты по лабораторным работам
 1. [Лабораторная работа №1](https://sulfuric-rosehip-3c5.notion.site/1-033f6f3fe84e455e9b209efd61884812)
@@ -25,6 +34,10 @@
 5. [Лабораторная работа №5](https://docs.google.com/document/d/1gHa85LbWY4pHjRvoUxWOvJnbQY0ryv8-DOlORwokkf8/edit?usp=sharing)
 6. [Лабораторная работа №6](https://docs.google.com/document/d/1mqX47KwLoske96zh73R63EgCPkDhRTTK_2rwpkcc_yw/edit?usp=sharing)
 7. [Лабораторная работа №7](https://docs.google.com/document/d/1oEac4sPRPxDPpN53fQwfAMt0Ci5Erx45ipXWEytKWgc/edit?usp=sharing)
+8. [Итоговый отчет](https://docs.google.com/document/d/1mH7suXrCju1hEnXHXoQ7MZXBZ-DbRlqIOoxt7P4Dxts/edit?usp=sharing)
 
 # Contribution
-**Авторы проекта:** Быстрова Вероника, Иванова Мария, Шинкевич Дарья
+**Авторы проекта:** 
+* Быстрова Вероника - Реализация основного функционала бэкенда и API, 
+* Иванова Мария - Реализация интерфейса и функционала мобильного приложения, 
+* Шинкевич Дарья - Реализация интерфейса и функционала веб-приложения
