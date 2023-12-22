@@ -33,6 +33,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.crypto.Data;
+
 @Service
 public class RecipeService {
     private final RecipeRepository recipeRepository;
@@ -119,6 +121,13 @@ public class RecipeService {
 		    					t2 == null ? 0 : t2);
     				})
     			.reversed());
+    	}
+    	
+    	for (var recipe: recipes) {
+//    		image_data = recipe.getImage().getData();
+    		System.out.println(imageService.downloadImage(recipe.getImage()));
+    		recipe.getImage().setData(imageService.downloadImage(recipe.getImage()));
+    		System.out.println(recipe.getImage().getData());
     	}
     	
     	PageRequest pageRequest = PageRequest.of(page, size);
