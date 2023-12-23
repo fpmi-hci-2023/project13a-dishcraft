@@ -8,7 +8,7 @@
 
 # Installation
 * Веб-приложение: https://project13a-web-dishcraft.vercel.app/
-* Мобильное приложение:
+* Мобильное приложение: https://github.com/fpmi-hci-2023/project13a-mobile-dishcraft/actions/runs/7307035994/artifacts/1132405135
 * API-документация: https://dish-craft.onrender.com/swagger-ui/index.html
 
 # Sub modules
