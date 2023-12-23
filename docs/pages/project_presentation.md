@@ -9,3 +9,6 @@
 [Презентация проекта](project_presentation.md)
 
 ## Презентация проекта
+
+### Итоговый отчет
+https://docs.google.com/document/d/1mH7suXrCju1hEnXHXoQ7MZXBZ-DbRlqIOoxt7P4Dxts/edit?usp=sharing
